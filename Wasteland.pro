@@ -24,3 +24,5 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
     mainselectform.ui \
     tableaform.ui
+
+QMAKE_CXXFLAGS += -std=gnu++14

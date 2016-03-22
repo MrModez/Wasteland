@@ -1,5 +1,6 @@
 #include "mainselectform.h"
 #include "ui_mainselectform.h"
+#include "QCloseEvent"
 
 MainSelectForm::MainSelectForm(QWidget *parent) :
     QWidget(parent),
@@ -13,7 +14,13 @@ MainSelectForm::~MainSelectForm()
     delete ui;
 }
 
+void MainSelectForm::closeEvent(QCloseEvent *event)
+{
+    emit sub_closed(0);
+    event->accept();
+}
+
 void MainSelectForm::on_pushButton_1_clicked()
 {
-    emit button_selected(0);
+    emit button_selected(1);
 }
