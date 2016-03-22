@@ -1,25 +1,23 @@
 #ifndef MAINSELECTFORM_H
 #define MAINSELECTFORM_H
 
-#include <QWidget>
+#include "subwindow.h"
 #include <QtCore>
 
 namespace Ui {
 class MainSelectForm;
 }
 
-class MainSelectForm : public QWidget
+class MainSelectForm : public SubWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainSelectForm(QWidget *parent = 0);
+    explicit MainSelectForm(int ID, QWidget *parent = 0);
     ~MainSelectForm();
-    void closeEvent(QCloseEvent *event);
 
 signals:
     void button_selected(int ID);
-    void sub_closed(int ID);
 
 private slots:
     void on_pushButton_1_clicked();

@@ -11,18 +11,26 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = Wasteland
 TEMPLATE = app
 
+INCLUDEPATH += forms \
+               subwindow    \
+               shared
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    mainselectform.cpp \
-    tableaform.cpp
+    forms/mainselectform.cpp \
+    forms/tableaform.cpp \
+    subwindow/submanager.cpp \
+    subwindow/subwindow.cpp
 
 HEADERS  += mainwindow.h \
-    mainselectform.h \
-    tableaform.h
+    forms/mainselectform.h \
+    forms/tableaform.h \
+    shared/shareddefs.h \
+    subwindow/submanager.h \
+    subwindow/subwindow.h
 
 FORMS    += mainwindow.ui \
-    mainselectform.ui \
-    tableaform.ui
+    forms/mainselectform.ui \
+    forms/tableaform.ui
 
 QMAKE_CXXFLAGS += -std=gnu++14

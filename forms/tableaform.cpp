@@ -1,11 +1,8 @@
 #include "tableaform.h"
 #include "ui_tableaform.h"
 #include "QStandardItemModel.h"
-#include "QCloseEvent"
 
-TableAForm::TableAForm(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::TableAForm)
+TableAForm::TableAForm(int ID, QWidget *parent) : SubWindow(ID, parent), ui(new Ui::TableAForm)
 {
     ui->setupUi(this);
 
@@ -20,10 +17,4 @@ TableAForm::TableAForm(QWidget *parent) :
 TableAForm::~TableAForm()
 {
     delete ui;
-}
-
-void TableAForm::closeEvent(QCloseEvent *event)
-{
-    emit sub_closed(1);
-    event->accept();
 }
