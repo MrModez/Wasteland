@@ -4,12 +4,16 @@
 #include <QWidget>
 #include <QtCore>
 
+class QMdiSubWindow;
+
 class SubWindow : public QWidget
 {
     Q_OBJECT
 public:
     explicit SubWindow(int ID, QWidget *parent = 0);
-    void closeEvent(QCloseEvent *event);
+
+    virtual void closeEvent(QCloseEvent *event);
+    virtual void setupWindow(QMdiSubWindow *window);
 
 signals:
     void sub_closed(int ID);

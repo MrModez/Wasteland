@@ -14,34 +14,11 @@ MainWindow::MainWindow(QWidget *parent) :
     showMaximized();
 
     WindowManager = new SubManager(ui->mdiArea);
-
-    QSettings Settings("myapp.ini", QSettings::IniFormat);
-
-    Settings.beginGroup("MainWindow");
-    Settings.setValue("MainSelectionOpened", 0);
-    Settings.setValue("ATableWindowOpened", 0);
-    Settings.endGroup();
-/*
-    Settings.beginGroup("ATable");
-    Settings.beginWriteArray("ATable");
-    QVector<int> test;
-    test = {1, 2};
-    for(unsigned int i = 0; i < test.size(); i++)
-    {
-        Settings.setArrayIndex(i);
-        Settings.setValue("selected", 1);
-    }
-    Settings.endArray();
-    Settings.endGroup();
-*/
-    Settings.sync();
-
-    WindowManager->createSubWindow(SUB_MAIN);
+    WindowManager->createSubWindow(SUB_SELECT_MAIN);
 }
 
 MainWindow::~MainWindow()
 {
-    //delete Settings;
     delete ui;
 }
 

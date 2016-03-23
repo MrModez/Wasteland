@@ -18,7 +18,14 @@ public:
     explicit TableAForm(int ID, QWidget *parent = 0);
     ~TableAForm();
 
-    void InitWithSettings(QSettings *Settings);
+    void initWithSettings(QSettings *Settings);
+    void setupWindow(QMdiSubWindow *window);
+
+signals:
+    void items_selected(QVector<bool> Rows);
+
+private slots:
+    void on_confirmButton_clicked();
 
 private:
     Ui::TableAForm *ui;

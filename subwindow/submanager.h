@@ -12,7 +12,7 @@ class SubManager : public QObject
     Q_OBJECT
 public:
     explicit SubManager(QMdiArea *MdiSubArea, QObject *parent = 0);
-    void loadSubWindow(QWidget *widget);
+    void loadSubWindow(SubWindow *widget);
     void createSubWindow(int ID);
     SubWindow *GetSubWindow(int ID);
     SubWindow *WindowFactrory(int ID);
@@ -22,6 +22,7 @@ signals:
 public slots:
     void onButtonSelected(int ID);
     void onSubWindowDestroyed(int ID);
+    void onItemsSelected(QVector<bool> Rows);
 
 private:
     std::vector<SubWindow*>SubWindows;

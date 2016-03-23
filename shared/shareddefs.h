@@ -3,8 +3,8 @@
 
 enum SubWindowID
 {
-    SUB_MAIN = 0,
-    SUB_ATABLE,
+    SUB_SELECT_MAIN = 0,
+    SUB_TABLE_A,
     ///
     SUB_COUNT
 };
