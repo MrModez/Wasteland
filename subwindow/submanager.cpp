@@ -15,10 +15,11 @@ SubManager::SubManager(QMdiArea *MdiSubArea, QObject *parent) : QObject(parent)
     mdiArea = MdiSubArea;
     SubWindows.resize(SUB_COUNT);
 
-    QSettings Settings("myapp.ini", QSettings::IniFormat);
+    QSettings Settings("Wasteland");
+    Settings.clear();
     Settings.beginGroup("MainWindow");
     for (auto c : SubWindowFlags)
-        Settings.setValue(c, 0);
+        Settings.setValue(c, false);
     Settings.endGroup();
     Settings.sync();
 }
@@ -35,14 +36,14 @@ void SubManager::loadSubWindow(SubWindow *widget)
     window->show();
 }
 
-void SubManager::createSubWindow(int ID)
+void SubManager::createSubWindow(int ID, bool forced/* = false*/)
 {
-    QSettings Settings("myapp.ini", QSettings::IniFormat);
+    QSettings Settings("Wasteland");
     Settings.beginGroup("MainWindow");
     bool opened = Settings.value(SubWindowFlags[ID]).toBool();
     Settings.endGroup();
 
-    if (opened)
+    if (opened && !forced)
         return;
 
     SubWindow *SubForm = WindowFactrory(ID);
@@ -62,6 +63,26 @@ void SubManager::createSubWindow(int ID)
     }
 }
 
+void SubManager::updateWindows()
+{
+    for (auto window : mdiArea->subWindowList())
+        window->deleteLater();
+
+    QSettings Settings("Wasteland");
+    Settings.beginGroup("MainWindow");
+    int ID = 0;
+    for (auto c : SubWindowFlags)
+    {
+        bool opened = Settings.value(c).toBool();
+        if (opened)
+        {
+            createSubWindow((SubWindowID)ID, true);
+        }
+        ID++;
+    }
+    Settings.endGroup();
+}
+
 void SubManager::onButtonSelected(int ID)
 {
     createSubWindow((SubWindowID)ID);
@@ -69,15 +90,15 @@ void SubManager::onButtonSelected(int ID)
 
 void SubManager::onSubWindowDestroyed(int ID)
 {
-    QSettings Settings("myapp.ini", QSettings::IniFormat);
+    QSettings Settings("Wasteland");
     Settings.beginGroup("MainWindow");
-    Settings.setValue(SubWindowFlags[ID], 0);
+    Settings.setValue(SubWindowFlags[ID], false);
     Settings.endGroup();
 }
 
 void SubManager::onItemsSelected(QVector<bool> Rows)
 {
-    QSettings Settings("myapp.ini", QSettings::IniFormat);
+    QSettings Settings("Wasteland");
     Settings.beginGroup("TableA");
     Settings.beginWriteArray("Rows");
     for (int i = 0; i < Rows.size(); i++)

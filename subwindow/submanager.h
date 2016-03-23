@@ -13,9 +13,10 @@ class SubManager : public QObject
 public:
     explicit SubManager(QMdiArea *MdiSubArea, QObject *parent = 0);
     void loadSubWindow(SubWindow *widget);
-    void createSubWindow(int ID);
+    void createSubWindow(int ID, bool forced = false);
     SubWindow *GetSubWindow(int ID);
     SubWindow *WindowFactrory(int ID);
+    void updateWindows();
 
 signals:
 

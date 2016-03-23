@@ -44,7 +44,8 @@ void TableAForm::setupWindow(QMdiSubWindow *window)
 {
     ui->tableView->clearSelection();
     ui->tableView->setSelectionMode(QAbstractItemView::MultiSelection);
-    QSettings Settings("myapp.ini", QSettings::IniFormat);
+
+    QSettings Settings("Wasteland");
     Settings.beginGroup("TableA");
     int size = Settings.beginReadArray("Rows");
     for (int i = 0; i < size; i++)
