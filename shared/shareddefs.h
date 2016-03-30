@@ -5,6 +5,7 @@ enum SubWindowID
 {
     SUB_SELECT_MAIN = 0,
     SUB_TABLE_A,
+    SUB_CALC,
     ///
     SUB_COUNT
 };

@@ -4,8 +4,6 @@
 #include <QFileDialog>
 #include "shareddefs.h"
 #include "submanager.h"
-#include "mainselectform.h"
-#include "tableaform.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

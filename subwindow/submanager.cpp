@@ -3,11 +3,13 @@
 #include "qmdisubwindow.h"
 #include "mainselectform.h"
 #include "tableaform.h"
+#include "calcform.h"
 
 const char *SubWindowFlags[SUB_COUNT] =
 {
     "MainSelectionOpened",
-    "TableAWindowOpened"
+    "TableAWindowOpened",
+    "CalcWindowOpened"
 };
 
 SubManager::SubManager(QMdiArea *MdiSubArea, QObject *parent) : QObject(parent)
@@ -112,15 +114,19 @@ void SubManager::onItemsSelected(QVector<bool> Rows)
 
 SubWindow *SubManager::WindowFactrory(int ID)
 {
-    if (ID == SUB_SELECT_MAIN)
+    switch (ID)
     {
-        MainSelectForm* SubForm = new MainSelectForm(ID, (QWidget*)parent());
-        return SubForm;
-    }
-    else if (ID == SUB_TABLE_A)
-    {
-        TableAForm* SubForm = new TableAForm(ID, (QWidget*)parent());
-        return SubForm;
+        case SUB_SELECT_MAIN:
+            return new MainSelectForm(ID, (QWidget*)parent());
+            break;
+        case SUB_TABLE_A:
+            return new TableAForm(ID, (QWidget*)parent());
+            break;
+        case SUB_CALC:
+            return new CalcForm(ID, (QWidget*)parent());
+            break;
+        default:
+            return NULL;
     }
     return NULL;
 }

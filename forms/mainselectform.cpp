@@ -25,5 +25,5 @@ void MainSelectForm::on_pushButtonA_clicked()
 
 void MainSelectForm::on_pushButtonSubmit_clicked()
 {
-    //emit button_selected(0);
+    emit button_selected(SUB_CALC);
 }

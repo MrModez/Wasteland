@@ -5,8 +5,6 @@
 #include <QtCore>
 
 class SubManager;
-class MainSelectForm;
-class TableAForm;
 
 namespace Ui {
 class MainWindow;
@@ -32,8 +30,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     SubManager      *WindowManager;
-    MainSelectForm  *SelectForm;
-    TableAForm      *AForm;
     QString         Filename;
 };
 
