@@ -6,13 +6,6 @@
 TableAForm::TableAForm(int ID, QWidget *parent) : SubWindow(ID, parent), ui(new Ui::TableAForm)
 {
     ui->setupUi(this);
-
-    QStandardItemModel *model = new QStandardItemModel(5, 3, this); //2 Rows and 3 Columns
-    model->setHorizontalHeaderItem(0, new QStandardItem(QString("Column1 Header")));
-    model->setHorizontalHeaderItem(1, new QStandardItem(QString("Column2 Header")));
-    model->setHorizontalHeaderItem(2, new QStandardItem(QString("Column3 Header")));
-
-    ui->tableView->setModel(model);
 }
 
 TableAForm::~TableAForm()
@@ -40,8 +33,60 @@ void TableAForm::on_confirmButton_clicked()
    emit items_selected(Rows);
 }
 
+QList<QStringList> TableAForm::readCSV(QString filename)
+{
+    // Open csv-file
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+
+    // Read data from file
+    QTextStream stream(&file);
+    QList<QStringList> data;
+    QString separator(",");
+    while (stream.atEnd() == false)
+    {
+        QString line = stream.readLine();
+        data << line.split(separator);
+    }
+
+    file.close();
+    return data;
+}
+
+void TableAForm::addStrings(const QStringList &strlist)
+{
+    QAbstractItemModel *model = ui->tableView->model();
+    int row = model->rowCount();
+    model->insertRow(model->rowCount());
+    int col = 0;
+    for (auto &str : strlist)
+    {
+        QVariant varstr(str);
+        model->setData(model->index(row, col), varstr, Qt::EditRole);
+        col++;
+    }
+}
+
+void TableAForm::addHeader(const QStringList &strlist)
+{
+    QStandardItemModel *itemmodel = new QStandardItemModel(0, strlist.size(), this);
+    int col = 0;
+    for (auto &str : strlist)
+    {
+        itemmodel->setHorizontalHeaderItem(col, new QStandardItem(str));
+        col++;
+    }
+    ui->tableView->setModel(itemmodel);
+}
+
 void TableAForm::setupWindow(QMdiSubWindow *window)
 {
+    QList<QStringList> list = readCSV("resource01.csv");
+    addHeader(list[0]);
+    for (int i = 1; i < list.size(); i++)
+    {
+        addStrings(list[i]);
+    }
     ui->tableView->clearSelection();
     ui->tableView->setSelectionMode(QAbstractItemView::MultiSelection);
 

@@ -22,7 +22,8 @@ signals:
     void button_selected(int ID);
 
 private slots:
-    void on_pushButton_1_clicked();
+    void on_pushButtonA_clicked();
+    void on_pushButtonSubmit_clicked();
 
 private:
     Ui::MainSelectForm *ui;

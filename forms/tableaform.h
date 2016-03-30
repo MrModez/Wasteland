@@ -29,6 +29,9 @@ private slots:
 
 private:
     Ui::TableAForm *ui;
+    QList<QStringList> readCSV(QString filename);
+    void addHeader(const QStringList &strlist);
+    void addStrings(const QStringList &strlist);
 };
 
 #endif // TABLEAFORM_H
