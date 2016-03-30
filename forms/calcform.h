@@ -3,6 +3,7 @@
 
 #include <QtCore>
 #include "subwindow.h"
+#include "qcustomplot.h"
 
 namespace Ui {
 class CalcForm;

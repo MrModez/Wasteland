@@ -6,14 +6,15 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = Wasteland
 TEMPLATE = app
 
 INCLUDEPATH += forms \
                subwindow    \
-               shared
+               shared       \
+               libs
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -21,7 +22,8 @@ SOURCES += main.cpp\
     forms/tableaform.cpp \
     subwindow/submanager.cpp \
     subwindow/subwindow.cpp \
-    forms/calcform.cpp
+    forms/calcform.cpp \
+    libs/qcustomplot.cpp
 
 HEADERS  += mainwindow.h \
     forms/mainselectform.h \
@@ -29,7 +31,8 @@ HEADERS  += mainwindow.h \
     shared/shareddefs.h \
     subwindow/submanager.h \
     subwindow/subwindow.h \
-    forms/calcform.h
+    forms/calcform.h \
+    libs/qcustomplot.h
 
 FORMS    += mainwindow.ui \
     forms/mainselectform.ui \

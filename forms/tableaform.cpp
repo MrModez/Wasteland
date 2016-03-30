@@ -82,6 +82,9 @@ void TableAForm::addHeader(const QStringList &strlist)
 void TableAForm::setupWindow(QMdiSubWindow *window)
 {
     QList<QStringList> list = readCSV("resource01.csv");
+    if (list.empty())
+        return;
+
     addHeader(list[0]);
     for (int i = 1; i < list.size(); i++)
     {
