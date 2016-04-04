@@ -13,7 +13,7 @@ MainSelectForm::~MainSelectForm()
     delete ui;
 }
 
-void MainSelectForm::setupWindow(QMdiSubWindow *window)
+void MainSelectForm::setupWindow(QMdiSubWindow *window, QVariant args)
 {
     window->setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint);
 }

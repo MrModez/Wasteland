@@ -13,7 +13,7 @@ public:
     explicit SubWindow(int ID, QWidget *parent = 0);
 
     virtual void closeEvent(QCloseEvent *event);
-    virtual void setupWindow(QMdiSubWindow *window);
+    virtual void setupWindow(QMdiSubWindow *window, QVariant args);
 
 signals:
     void sub_closed(int ID);

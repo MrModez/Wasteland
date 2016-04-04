@@ -17,7 +17,7 @@ public:
     explicit CalcForm(int ID, QWidget *parent = 0);
     ~CalcForm();
 
-    void setupWindow(QMdiSubWindow *window);
+    void setupWindow(QMdiSubWindow *window, QVariant args);
 
 private:
     Ui::CalcForm *ui;

@@ -5,6 +5,7 @@
 #include <QtCore>
 
 class SubManager;
+class DataImporter;
 
 namespace Ui {
 class MainWindow;
@@ -30,6 +31,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     SubManager      *WindowManager;
+    DataImporter    *Importer;
     QString         Filename;
 };
 

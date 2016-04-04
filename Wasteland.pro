@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     subwindow/submanager.cpp \
     subwindow/subwindow.cpp \
     forms/calcform.cpp \
-    libs/qcustomplot.cpp
+    libs/qcustomplot.cpp \
+    dataimporter.cpp
 
 HEADERS  += mainwindow.h \
     forms/mainselectform.h \
@@ -32,7 +33,8 @@ HEADERS  += mainwindow.h \
     subwindow/submanager.h \
     subwindow/subwindow.h \
     forms/calcform.h \
-    libs/qcustomplot.h
+    libs/qcustomplot.h \
+    dataimporter.h
 
 FORMS    += mainwindow.ui \
     forms/mainselectform.ui \

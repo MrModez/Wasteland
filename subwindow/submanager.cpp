@@ -4,6 +4,7 @@
 #include "mainselectform.h"
 #include "tableaform.h"
 #include "calcform.h"
+#include "dataimporter.h"
 
 const char *SubWindowFlags[SUB_COUNT] =
 {
@@ -12,9 +13,10 @@ const char *SubWindowFlags[SUB_COUNT] =
     "CalcWindowOpened"
 };
 
-SubManager::SubManager(QMdiArea *MdiSubArea, QObject *parent) : QObject(parent)
+SubManager::SubManager(QMdiArea *MdiSubArea, DataImporter *Imp, QObject *parent) : QObject(parent)
 {
     mdiArea = MdiSubArea;
+    Importer = Imp;
     SubWindows.resize(SUB_COUNT);
 
     QSettings Settings("Wasteland");
@@ -31,10 +33,13 @@ SubWindow *SubManager::GetSubWindow(int ID)
     return SubWindows[ID];
 }
 
-void SubManager::loadSubWindow(SubWindow *widget)
+void SubManager::loadSubWindow(SubWindow *widget, int ID)
 {
     QMdiSubWindow* window = mdiArea->addSubWindow(widget);
-    widget->setupWindow(window);
+    QVariant args;
+    if (ID == SUB_TABLE_A)
+        args = Importer->getListA();
+    widget->setupWindow(window, args);
     window->show();
 }
 
@@ -52,7 +57,7 @@ void SubManager::createSubWindow(int ID, bool forced/* = false*/)
     if (SubForm)
     {
         SubWindows[ID] = SubForm;
-        loadSubWindow(SubForm);
+        loadSubWindow(SubForm, ID);
         Settings.beginGroup("MainWindow");
         Settings.setValue(SubWindowFlags[ID], 1);
         Settings.endGroup();

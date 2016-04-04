@@ -33,26 +33,6 @@ void TableAForm::on_confirmButton_clicked()
    emit items_selected(Rows);
 }
 
-QList<QStringList> TableAForm::readCSV(QString filename)
-{
-    // Open csv-file
-    QFile file(filename);
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-
-    // Read data from file
-    QTextStream stream(&file);
-    QList<QStringList> data;
-    QString separator(",");
-    while (stream.atEnd() == false)
-    {
-        QString line = stream.readLine();
-        data << line.split(separator);
-    }
-
-    file.close();
-    return data;
-}
-
 void TableAForm::addStrings(const QStringList &strlist)
 {
     QAbstractItemModel *model = ui->tableView->model();
@@ -79,16 +59,16 @@ void TableAForm::addHeader(const QStringList &strlist)
     ui->tableView->setModel(itemmodel);
 }
 
-void TableAForm::setupWindow(QMdiSubWindow *window)
+
+void TableAForm::setupWindow(QMdiSubWindow *window, QVariant args)
 {
-    QList<QStringList> list = readCSV("resource01.csv");
+    QList<QVariant>list = args.toList();
     if (list.empty())
         return;
-
-    addHeader(list[0]);
+    addHeader(list[0].toStringList());
     for (int i = 1; i < list.size(); i++)
     {
-        addStrings(list[i]);
+        addStrings(list[i].toStringList());
     }
     ui->tableView->clearSelection();
     ui->tableView->setSelectionMode(QAbstractItemView::MultiSelection);

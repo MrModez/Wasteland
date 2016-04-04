@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include "shareddefs.h"
 #include "submanager.h"
+#include "dataimporter.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -13,7 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     showMaximized();
 
     setFileName("");
-    WindowManager = new SubManager(ui->mdiArea);
+    Importer = new DataImporter(this);
+    WindowManager = new SubManager(ui->mdiArea, Importer, this);
     WindowManager->createSubWindow(SUB_SELECT_MAIN);
 }
 

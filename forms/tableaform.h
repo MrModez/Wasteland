@@ -18,8 +18,7 @@ public:
     explicit TableAForm(int ID, QWidget *parent = 0);
     ~TableAForm();
 
-    void initWithSettings(QSettings *Settings);
-    void setupWindow(QMdiSubWindow *window);
+    void setupWindow(QMdiSubWindow *window, QVariant args);
 
 signals:
     void items_selected(QVector<bool> Rows);
@@ -29,7 +28,6 @@ private slots:
 
 private:
     Ui::TableAForm *ui;
-    QList<QStringList> readCSV(QString filename);
     void addHeader(const QStringList &strlist);
     void addStrings(const QStringList &strlist);
 };

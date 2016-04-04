@@ -16,7 +16,7 @@ public:
     explicit MainSelectForm(int ID, QWidget *parent = 0);
     ~MainSelectForm();
 
-    void setupWindow(QMdiSubWindow *window);
+    void setupWindow(QMdiSubWindow *window, QVariant args);
 
 signals:
     void button_selected(int ID);

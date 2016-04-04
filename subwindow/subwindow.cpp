@@ -13,7 +13,7 @@ void SubWindow::closeEvent(QCloseEvent *event)
     event->accept();
 }
 
-void SubWindow::setupWindow(QMdiSubWindow *window)
+void SubWindow::setupWindow(QMdiSubWindow *window, QVariant args)
 {
     window->setWindowTitle("TestWindow");
     //window->setWindowIcon(windowIcon());
