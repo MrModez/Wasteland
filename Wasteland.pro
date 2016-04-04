@@ -24,6 +24,7 @@ SOURCES += main.cpp\
     subwindow/subwindow.cpp \
     forms/calcform.cpp \
     libs/qcustomplot.cpp \
+    libs/qcpdocumentobject.cpp \
     dataimporter.cpp
 
 HEADERS  += mainwindow.h \
@@ -34,6 +35,7 @@ HEADERS  += mainwindow.h \
     subwindow/subwindow.h \
     forms/calcform.h \
     libs/qcustomplot.h \
+    libs/qcpdocumentobject.h \
     dataimporter.h
 
 FORMS    += mainwindow.ui \

@@ -22,11 +22,14 @@ public:
 private slots:
     void Recalculate();
 
+    void on_printButton_clicked();
+
 private:
     Ui::CalcForm *ui;
     QCPBars *distrib;
     QList<QVariant>strings;
     int selectedID;
+    QTextEdit *textEdit;
 };
 
 #endif // CALCFORM_H

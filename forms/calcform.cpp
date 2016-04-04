@@ -1,10 +1,16 @@
 #include "calcform.h"
 #include "ui_calcform.h"
+#include "qcpdocumentobject.h"
 
 CalcForm::CalcForm(int ID, QWidget *parent) : SubWindow(ID, parent), ui(new Ui::CalcForm)
 {
     ui->setupUi(this);
     selectedID = -1;
+
+    textEdit = new QTextEdit(this);
+    QCPDocumentObject *plotObjectHandler = new QCPDocumentObject(this);
+    textEdit->document()->documentLayout()->registerHandler(QCPDocumentObject::PlotTextFormat, plotObjectHandler);
+    textEdit->setVisible(false);
 }
 
 CalcForm::~CalcForm()
@@ -63,8 +69,17 @@ void CalcForm::Recalculate()
     QVector<float> data;
     int max = 0;
     int min = INT_MAX;
+
+    QSettings Settings("Wasteland");
+    Settings.beginGroup("TableA");
+    Settings.beginReadArray("Rows");
     for (int i = 1; i < strings.count(); i++)
     {
+        Settings.setArrayIndex(i);
+        bool selected = Settings.value("selected", false).toBool();
+        if (!selected)
+            continue;
+
         int val = strings[i].toStringList()[ID + 2].toInt();
         data << val;
         if (val > max)
@@ -72,6 +87,8 @@ void CalcForm::Recalculate()
         if (val < min)
             min = val;
     }
+    Settings.endArray();
+    Settings.endGroup();
 
     int N = data.count();
     int count = 1 + (log10(N) * 3.322);
@@ -97,8 +114,9 @@ void CalcForm::Recalculate()
     customPlot->xAxis->setRange(0, count + 1);
 
     // prepare y axis:
-    customPlot->yAxis->setRange(0, N/2);
+    customPlot->yAxis->setRange(0, N);
     customPlot->yAxis->setPadding(5); // a bit more space to the left border
+    customPlot->yAxis->setTickStep(1);
     customPlot->yAxis->setLabel(str);
     customPlot->yAxis->grid()->setSubGridVisible(true);
     QPen gridPen;
@@ -123,4 +141,28 @@ void CalcForm::Recalculate()
     distrib->setData(ticks, distribData);
     //customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
     customPlot->replot();
+}
+
+void CalcForm::on_printButton_clicked()
+{
+    QTextCursor cursor = textEdit->textCursor();
+
+    double width = 600;
+    double height = 400;
+    cursor.insertText(QString(QChar::ObjectReplacementCharacter), QCPDocumentObject::generatePlotFormat(ui->widget, width, height));
+    textEdit->setTextCursor(cursor);
+
+
+    QString fileName = QFileDialog::getSaveFileName(this, "Save document...", qApp->applicationDirPath(), "PDF file (*.pdf)");
+    if (!fileName.isEmpty())
+    {
+      QPrinter printer;
+      printer.setFullPage(true);
+      printer.setPaperSize(QPrinter::A4);
+      printer.setOrientation(QPrinter::Portrait);
+      printer.setOutputFormat(QPrinter::PdfFormat);
+      printer.setOutputFileName(fileName);
+      textEdit->document()->print(&printer);
+    }
+
 }
