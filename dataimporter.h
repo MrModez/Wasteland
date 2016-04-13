@@ -10,6 +10,7 @@ class DataImporter : public QObject
 public:
     explicit DataImporter(QObject *parent = 0);
     QVariant getListA();
+    QVariant getListPDK();
 
 signals:
 
@@ -19,6 +20,7 @@ private:
     QList<QStringList> readCSV(QString filename);
 
     QList<QStringList> StringListA;
+    QList<QStringList> StringListPDK;
 };
 
 #endif // DATAIMPORTER_H

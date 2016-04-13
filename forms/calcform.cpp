@@ -20,7 +20,7 @@ CalcForm::~CalcForm()
 
 void CalcForm::setupWindow(QMdiSubWindow *window, QVariant args)
 {
-    strings = args.toList();
+    strings = args.toList()[0].toList();
     if (strings.empty())
         return;
     int i = 0;
@@ -33,6 +33,7 @@ void CalcForm::setupWindow(QMdiSubWindow *window, QVariant args)
         button->setText(str);
         connect(button, &QRadioButton::released, this, &CalcForm::Recalculate);
     }
+    PDK = args.toList()[1].toList();
 
     QCustomPlot *customPlot = ui->widget;
 
@@ -46,7 +47,40 @@ void CalcForm::setupWindow(QMdiSubWindow *window, QVariant args)
     distrib->setPen(pen);
     distrib->setBrush(QColor(255, 131, 0, 50));
 
+    CalculatePDK();
+}
 
+void CalcForm::CalculatePDK()
+{
+    QSettings Settings("Wasteland");
+    Settings.beginGroup("TableA");
+    Settings.beginReadArray("Rows");
+    QString str;
+    for (int i = 1; i < strings.count(); i++)
+    {
+        Settings.setArrayIndex(i);
+        bool selected = Settings.value("selected", false).toBool();
+        if (!selected)
+            continue;
+        str += strings[i].toStringList()[0] + ": ";
+        for (int k = 1; k < PDK[0].toStringList().count(); k++)
+        {
+            float valPDK = 0.0;
+            for (int j = 1; j < PDK.count(); j++)
+            {
+                float valP = PDK[j].toStringList()[k].toFloat();
+                float valA = strings[i].toStringList()[j + 1].toFloat();
+                valPDK += valA / valP;
+            }
+            valPDK /= (PDK.count() - 1);
+            QString name = PDK[0].toStringList()[k];
+            str += "ИЗФ(" + name + ") - " + QString::number(valPDK) + "; ";
+        }
+        str += "\n";
+    }
+    ui->label->setText(str);
+    Settings.endArray();
+    Settings.endGroup();
 }
 
 void CalcForm::Recalculate()
@@ -101,7 +135,7 @@ void CalcForm::Recalculate()
     for (int i = 0; i < count; i++)
     {
         ticks << i + 1;
-        labels << QString::number(section * (float)i) + "-" + QString::number(section * (float)(i + 1) - 1);
+        labels << QString::number(section * (float)i) + "..." + QString::number(section * (float)(i + 1) - 1);
     }
     customPlot->xAxis->setAutoTicks(false);
     customPlot->xAxis->setAutoTickLabels(false);
@@ -112,12 +146,13 @@ void CalcForm::Recalculate()
     customPlot->xAxis->setTickLength(0, 4);
     customPlot->xAxis->grid()->setVisible(true);
     customPlot->xAxis->setRange(0, count + 1);
+    customPlot->xAxis->setLabel(str);
 
     // prepare y axis:
     customPlot->yAxis->setRange(0, N);
     customPlot->yAxis->setPadding(5); // a bit more space to the left border
     customPlot->yAxis->setTickStep(1);
-    customPlot->yAxis->setLabel(str);
+    customPlot->yAxis->setLabel("Количество свалок");
     customPlot->yAxis->grid()->setSubGridVisible(true);
     QPen gridPen;
     gridPen.setStyle(Qt::SolidLine);

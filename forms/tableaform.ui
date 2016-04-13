@@ -30,7 +30,7 @@
    <item row="1" column="0">
     <widget class="QPushButton" name="confirmButton">
      <property name="text">
-      <string>PushButton</string>
+      <string>Подтвердить</string>
      </property>
     </widget>
    </item>

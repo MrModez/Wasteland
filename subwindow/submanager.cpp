@@ -40,7 +40,12 @@ void SubManager::loadSubWindow(SubWindow *widget, int ID)
     if (ID == SUB_TABLE_A)
         args = Importer->getListA();
     if (ID == SUB_CALC)
-        args = Importer->getListA();
+    {
+        QList<QVariant>list;
+        list << Importer->getListA();
+        list << Importer->getListPDK();
+        args = QVariant(list);
+    }
     widget->setupWindow(window, args);
     window->show();
 }

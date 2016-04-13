@@ -28,6 +28,8 @@ private slots:
     void on_actionSave_triggered();
     void on_actionSaveAs_triggered();
 
+    void on_actionExit_triggered();
+
 private:
     Ui::MainWindow *ui;
     SubManager      *WindowManager;

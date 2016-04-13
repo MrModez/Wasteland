@@ -21,6 +21,7 @@ public:
 
 private slots:
     void Recalculate();
+    void CalculatePDK();
 
     void on_printButton_clicked();
 
@@ -28,6 +29,7 @@ private:
     Ui::CalcForm *ui;
     QCPBars *distrib;
     QList<QVariant>strings;
+    QList<QVariant>PDK;
     int selectedID;
     QTextEdit *textEdit;
 };

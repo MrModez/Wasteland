@@ -3,6 +3,7 @@
 DataImporter::DataImporter(QObject *parent) : QObject(parent)
 {
     StringListA = readCSV("resource01.csv");
+    StringListPDK = readCSV("resource02.csv");
 }
 
 QList<QStringList> DataImporter::readCSV(QString filename)
@@ -29,6 +30,14 @@ QVariant DataImporter::getListA()
 {
     QList<QVariant>list;
     for (auto &strlist : StringListA)
+        list << QVariant(strlist);
+    return QVariant(list);
+}
+
+QVariant DataImporter::getListPDK()
+{
+    QList<QVariant>list;
+    for (auto &strlist : StringListPDK)
         list << QVariant(strlist);
     return QVariant(list);
 }
