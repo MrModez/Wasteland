@@ -55,14 +55,25 @@ void CalcForm::CalculatePDK()
     QSettings Settings("Wasteland");
     Settings.beginGroup("TableA");
     Settings.beginReadArray("Rows");
-    QString str;
+    QString str = "Расчет ИЗФ:<br>";
+    str += "<table border=\"1\" width=\"200\" height=\"200\" cellpadding=\"5\" cellspacing=\"5\">";
+    str += "<tr>";
+    str += "<th>Название</th>";
+    for (int k = 1; k < PDK[0].toStringList().count(); k++)
+    {
+        QString name = PDK[0].toStringList()[k];
+        str += "<th>" + name + "</th>";
+    }
+    str += "</tr>";
     for (int i = 1; i < strings.count(); i++)
     {
         Settings.setArrayIndex(i);
         bool selected = Settings.value("selected", false).toBool();
         if (!selected)
             continue;
-        str += strings[i].toStringList()[0] + ": ";
+
+        str += "<tr>";
+        str += "<td>" + strings[i].toStringList()[0] + "</td>";
         for (int k = 1; k < PDK[0].toStringList().count(); k++)
         {
             float valPDK = 0.0;
@@ -73,12 +84,12 @@ void CalcForm::CalculatePDK()
                 valPDK += valA / valP;
             }
             valPDK /= (PDK.count() - 1);
-            QString name = PDK[0].toStringList()[k];
-            str += "ИЗФ(" + name + ") - " + QString::number(valPDK) + "; ";
+            str += "<td>" + QString::number(valPDK) + "</td>";
         }
-        str += "\n";
+        str += "</tr>";
     }
-    ui->label->setText(str);
+    str += "</table>";
+    ui->textEdit->insertHtml(str);
     Settings.endArray();
     Settings.endGroup();
 }
@@ -146,7 +157,7 @@ void CalcForm::Recalculate()
     customPlot->xAxis->setTickLength(0, 4);
     customPlot->xAxis->grid()->setVisible(true);
     customPlot->xAxis->setRange(0, count + 1);
-    customPlot->xAxis->setLabel(str);
+    customPlot->xAxis->setLabel(str + " (мг/л)");
 
     // prepare y axis:
     customPlot->yAxis->setRange(0, N);
@@ -184,7 +195,11 @@ void CalcForm::on_printButton_clicked()
 
     double width = 600;
     double height = 400;
+    //cursor.insertText <font face=\"Times New Roman\">
+    textEdit->insertHtml("<h3>Морфологический состав свалок:</h3>");
     cursor.insertText(QString(QChar::ObjectReplacementCharacter), QCPDocumentObject::generatePlotFormat(ui->widget, width, height));
+    textEdit->insertHtml("<br><h3>Общие характеристики объектов складирования отходов:</h3><br>");
+    textEdit->insertHtml(ui->textEdit->document()->toHtml());
     textEdit->setTextCursor(cursor);
 
 
@@ -200,4 +215,5 @@ void CalcForm::on_printButton_clicked()
       textEdit->document()->print(&printer);
     }
 
+    textEdit->clear();
 }
